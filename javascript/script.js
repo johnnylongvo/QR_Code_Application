@@ -3,6 +3,8 @@ const qr = document.getElementById('qrcode');
 
 const onGenerateSubmit = (e) => {
     e.preventDefault();
+
+    clearUI(); // clear screen from QR code
     
     const url = document.getElementById('url').value;
     const size = document.getElementById('size').value;
@@ -14,9 +16,11 @@ const onGenerateSubmit = (e) => {
     } else {
         showLoadingSpinner();
 
-        setTimeout(() => {  // show loading spinner for 1 second or so.
+        setTimeout(() => {  // show loading spinner for 3 second or so.
             hideLoadingSpinner();
-        }, 1000); 
+
+            generateQRCode(url, size);
+        }, 3000); 
     }
 };
 
@@ -26,6 +30,18 @@ const showLoadingSpinner = () => {
 
 const hideLoadingSpinner = () => {
     document.getElementById('loadingSpinner').style.display = 'none';
+}
+
+const generateQRCode = (url, size) => {
+    const qrcode = new QRCode('qrcode', { // pass id
+        text: url, // object with text value, pass as an argument
+        width: size,
+        height: size,
+    });
+};
+
+const clearUI = () => { // clearing QR code from screen
+    qr.innerHTML = '';  
 }
 
 hideLoadingSpinner();
